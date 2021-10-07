@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <body>
+
     <head>
-        <title> Welcome to my web site!</title>
+        <title> Welcome to my Projects!</title>
         <style>
             h1 {
                 text-align: center;
                 color: black;
                 font-family: Arial;
-                
+
             }
+
             h2 {
                 text-align: center;
                 color: black;
                 font-family: Arial, Helvetica, sans-serif;
             }
-            p{
+
+            p {
                 text-align: center;
                 color: black;
                 font-family: Arial;
             }
 
-            .vid-container{
+            .maxWidth {
+                max-width: 1000px;
+                text-align: center;
+            }
+
+            .vid-container {
                 position: relative;
                 padding-bottom: 56.25%;
                 height: 0;
-                
+                text-align: center;
             }
 
-            .vid-container iframe{
+
+            .vid-container iframe {
                 position: absolute;
-                
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-               
 
             }
-            
-
         </style>
     </head>
 
@@ -48,16 +54,56 @@
         <h2 style="margin-top: 40px"> Chess </h2>
 
         <p style="margin-top: 20px"> Knight's tour visualization 50x50 chess board </p>
-        <div class="vid-container"> <iframe width="560" height="315" src="https://www.youtube.com/embed/v6ws2g4RGPs?vq=hd720p" title="Knight's tour 50x50" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>
-
-        <p style="margin-top: 70px"> Knight's tour visualization 100x100 chess board </p>
-        <div class="vid-container"> <iframe width="560" height="315" src="https://www.youtube.com/embed/U4nmjSdpG-E?vq=hd720p" title="Knight's tour 100x100" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>
+        <div class="maxWidth">
+            <div class="vid-container"> <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/v6ws2g4RGPs?vq=hd720p" title="Knight's tour 50x50"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe></div>
+        </div>
 
         <p style="margin-top: 70px"> Chess game - En Passant, Castling, King Check mechanism </p>
-        <div class="vid-container"> <iframe width="560" height="315" src="https://www.youtube.com/embed/iFrOvqANB78?vq=hd720p" title="Chess Game" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>
+        <div class="maxWidth">
+            <div class="vid-container"> <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/iFrOvqANB78?vq=hd720p" title="Chess Game" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe></div>
+        </div>
 
-        <p style="margin-top: 70px"> Chess game visualized with PGN parsing, with square control visualization<br>a RED Square is an abandoned square - no attackers and no defenders <br> a Green Square is a square that is equally attacked and defended </p>
-        <div class="vid-container"> <iframe width="560" height="315" src="https://www.youtube.com/embed/GRfPHImg9VI?vq=hd720p" title="PGN parse + Color visualization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </div>
+        <p style="margin-top: 70px"> Chess game visualized via PGN parsing function - PGN taken from one of Magnus Carlsen's game <br>This video includes Square control visualization <br> A RED
+            Square is an abandoned square - no attackers and no defenders <br> A Green Square is a square that is
+            equally attacked and defended </p>
+        <div class="maxWidth">
+            <div class="vid-container"> <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/GRfPHImg9VI?vq=hd720p" title="PGN parse + Color visualization"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe> </div>
+        </div>
+
+
+        <h2 style="margin-top: 140px"> Path Finding Algorithms </h2>
+        <p> Dijkstra's Algorithm finds the shortest path in a randomly generated maze</p]>
+        <div class="maxWidth">
+            <div class="vid-container"><iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/2FTm_bc5dCw?vq=hd720p" title="Dijkstra's - Maze" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe></div>
+        </div>
+        <p> Path finding algorithms project showcase <br> White blocks are barriers <br> Brown blocks are weighted paths - similar to a traffic jam </p>
+        <div class="maxWidth">
+            <div class="vid-container">
+                
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/buWAll_eTRA?vq=hd720p"
+                        title="Path_finding_Showcase" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+            </div>
+        </div>
+        
+
+
 
     </body>
 
