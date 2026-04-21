@@ -1,146 +1,751 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<body style="background-color:#fff">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amit Davidi — Projects & Demos</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-elevated: #12121a;
+            --bg-card: #161620;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --text: #e8e8ed;
+            --text-muted: #9a9aa8;
+            --text-dim: #6b6b7a;
+            --accent: #7c5cff;
+            --accent-2: #00d4ff;
+            --accent-3: #ff6b9d;
+            --glow: rgba(124, 92, 255, 0.25);
+        }
 
-    <head>
-        <title> Projects - Demos </title>
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
-        <style>
-            h1 {
-                text-align: center;
-                color: black;
-                font-family: Arial;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(124, 92, 255, 0.15), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0, 212, 255, 0.12), transparent 50%),
+                radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255, 107, 157, 0.08), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 12px var(--glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: var(--bg-card);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 28px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #76b900;
+            box-shadow: 0 0 8px #76b900;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #b4b4c7 60%, #7c5cff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p.subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 36px;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #5a3fd6);
+            color: white;
+            box-shadow: 0 8px 24px -8px var(--glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px -8px var(--glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-elevated);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Section */
+        section.projects {
+            padding: 60px 0 100px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        /* Project grid */
+        .project-grid {
+            display: grid;
+            gap: 28px;
+            margin-bottom: 80px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, rgba(124, 92, 255, 0.3), transparent);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .project-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .project-content {
+            padding: 24px 28px 28px;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(124, 92, 255, 0.12);
+            color: #b8a5ff;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .project-tag.cyan {
+            background: rgba(0, 212, 255, 0.12);
+            color: #7ce3ff;
+        }
+
+        .project-tag.pink {
+            background: rgba(255, 107, 157, 0.12);
+            color: #ffb3cc;
+        }
+
+        .project-tag.orange {
+            background: rgba(255, 165, 0, 0.12);
+            color: #ffcf80;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .project-desc strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .project-desc .note {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.88rem;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        /* Category group */
+        .category-group {
+            margin-bottom: 100px;
+        }
+
+        .category-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        .footer-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .footer-email a {
+            color: var(--accent-2);
+            text-decoration: none;
+        }
+
+        .footer-email a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (min-width: 900px) {
+            .project-grid.two-col {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links a:not(.btn-nav) {
+                display: none;
+            }
+            .hero {
+                padding: 80px 0 60px;
+            }
+            .project-content {
+                padding: 20px;
+            }
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text) !important;
+            font-size: 0.85rem !important;
+        }
+
+        .btn-nav:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-elevated);
+        }
+
+        /* Dynamic render states */
+        .loading-state,
+        .error-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .error-state {
+            color: #ff6b6b;
+        }
+
+        /* Image project */
+        .project-image {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Text-only project (no media) */
+        .project-card.text-only .project-content {
+            padding: 32px 28px;
+        }
+
+        .project-card.text-only .project-title {
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-inner">
+            <div class="logo">
+                <span class="logo-dot"></span>
+                <span>Amit Davidi</span>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="about.html">About</a>
+                <a class="btn-nav" target="_blank" href="https://github.com/AmitDavidi?tab=repositories">GitHub →</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                <span id="hero-badge">Engineer @ NVIDIA — open to side projects</span>
+            </div>
+            <h1 id="hero-title">Projects &amp; Demos</h1>
+            <p class="subtitle" id="hero-subtitle">
+                A collection of visual experiments spanning algorithms, pathfinding, fractals,
+                and computer vision — built for the joy of making things work.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" target="_blank" href="https://github.com/AmitDavidi?tab=repositories">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                    View Repositories
+                </a>
+                <a class="btn btn-secondary" href="about.html">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                    About me
+                </a>
+                <a class="btn btn-secondary" href="mailto:amitdavidi12@gmail.com">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Get in touch
+                </a>
+            </div>
+        </section>
+
+        <section class="projects" id="projects-root">
+            <div class="loading-state">Loading projects…</div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <span class="logo-dot"></span>
+                    <span>Amit Davidi</span>
+                </div>
+                <div class="footer-email">
+                    <a href="mailto:amitdavidi12@gmail.com">amitdavidi12@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a target="_blank" href="https://github.com/AmitDavidi?tab=repositories">GitHub</a>
+                    <a href="mailto:amitdavidi12@gmail.com">Email</a>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.82rem; margin-top: 8px;">© 2026 Amit Davidi. Built with care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const root = document.getElementById('projects-root');
+            const navLinks = document.getElementById('nav-links');
+            const heroBadge = document.getElementById('hero-badge');
+            const heroTitle = document.getElementById('hero-title');
+            const heroSubtitle = document.getElementById('hero-subtitle');
+
+            function escapeHtml(s) {
+                return String(s == null ? '' : s)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
             }
 
-            h2 {
-                text-align: center;
-                color: black;
-                font-family: Arial, Helvetica, sans-serif;
+            function escapeAttr(s) {
+                return escapeHtml(s);
             }
 
-            p {
-                text-align: center;
-                color: black;
-                font-family: Arial;
+            function renderProjectMedia(p) {
+                if (p.type === 'video') {
+                    const id = encodeURIComponent(p.media?.youtubeId || '');
+                    const title = escapeAttr(p.media?.title || p.title || 'video');
+                    if (!id) return '';
+                    return `
+                        <div class="project-video">
+                            <iframe src="https://www.youtube.com/embed/${id}?vq=hd720p&rel=0"
+                                title="${title}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen loading="lazy"></iframe>
+                        </div>`;
+                }
+                if (p.type === 'image') {
+                    const src = escapeAttr(p.media?.src || '');
+                    const alt = escapeAttr(p.media?.alt || p.title || '');
+                    if (!src) return '';
+                    return `<div class="project-image"><img src="${src}" alt="${alt}" loading="lazy"></div>`;
+                }
+                return '';
             }
 
-            a {
-                text-align: center;
-                color: black;
-                font-family: Arial;
-
+            function renderProjectCard(p) {
+                const tagClass = p.tagColor && p.tagColor !== 'purple' ? ` ${escapeAttr(p.tagColor)}` : '';
+                const tagHtml = p.tag ? `<span class="project-tag${tagClass}">${escapeHtml(p.tag)}</span>` : '';
+                const titleHtml = p.title ? `<h3 class="project-title">${escapeHtml(p.title)}</h3>` : '';
+                // Description is stored as user-controlled HTML so <strong>, <br>, notes, swatches work.
+                const descHtml = p.description ? `<p class="project-desc">${p.description}</p>` : '';
+                const media = renderProjectMedia(p);
+                const textOnly = p.type === 'text' || !media;
+                return `
+                    <article class="project-card${textOnly ? ' text-only' : ''}" data-id="${escapeAttr(p.id || '')}">
+                        ${media}
+                        <div class="project-content">
+                            ${tagHtml}
+                            ${titleHtml}
+                            ${descHtml}
+                        </div>
+                    </article>`;
             }
 
-            .maxWidth {
-                /* max-width: 1000px; */
-                max-width: 600px;
+            function renderCategory(cat) {
+                const projects = Array.isArray(cat.projects) ? cat.projects : [];
+                // Group consecutive "half"-size projects into two-col grids, others into single-col.
+                const groups = [];
+                let current = null;
+                for (const p of projects) {
+                    const size = p.size === 'half' ? 'half' : 'full';
+                    if (!current || current.size !== size) {
+                        current = { size, items: [] };
+                        groups.push(current);
+                    }
+                    current.items.push(p);
+                }
+
+                const gridsHtml = groups.map(g => {
+                    const twoCol = g.size === 'half' ? ' two-col' : '';
+                    return `<div class="project-grid${twoCol}">${g.items.map(renderProjectCard).join('')}</div>`;
+                }).join('');
+
+                const number = cat.number ? `${escapeHtml(cat.number)} — ` : '';
+                return `
+                    <div id="${escapeAttr(cat.id || '')}" class="category-group">
+                        <div class="section-header">
+                            <div class="section-category">${number}${escapeHtml(cat.label || '')}</div>
+                            <h2 class="section-title">${escapeHtml(cat.title || '')}</h2>
+                            ${cat.description ? `<p class="section-desc">${escapeHtml(cat.description)}</p>` : ''}
+                        </div>
+                        ${gridsHtml}
+                    </div>`;
             }
 
-            .vid-container {
-                position: relative;
-                padding-bottom: 56.25%;
-                height: 0;
-                text-align: center;
+            function renderNav(categories) {
+                const existing = navLinks.querySelectorAll('a[data-nav-cat]');
+                existing.forEach(el => el.remove());
+                const githubBtn = navLinks.querySelector('.btn-nav');
+                const aboutLink = navLinks.querySelector('a[href="about.html"]');
+                const frag = document.createDocumentFragment();
+                categories.forEach(cat => {
+                    const a = document.createElement('a');
+                    a.href = `#${cat.id}`;
+                    a.textContent = cat.label || cat.title || cat.id;
+                    a.dataset.navCat = '1';
+                    frag.appendChild(a);
+                });
+                navLinks.insertBefore(frag, aboutLink || githubBtn);
             }
 
-
-            .vid-container iframe {
-                position: absolute;
-                text-align: center;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-
+            function render(data) {
+                if (data.hero) {
+                    if (data.hero.badge && heroBadge) heroBadge.textContent = data.hero.badge;
+                    if (data.hero.title && heroTitle) heroTitle.textContent = data.hero.title;
+                    if (data.hero.subtitle && heroSubtitle) heroSubtitle.textContent = data.hero.subtitle;
+                }
+                const categories = Array.isArray(data.categories) ? data.categories : [];
+                root.innerHTML = categories.map(renderCategory).join('') ||
+                    `<div class="loading-state">No projects yet. Visit the <a href="dashboard.html" style="color:var(--accent-2)">dashboard</a> to add some.</div>`;
+                renderNav(categories);
             }
-        </style>
-    </head>
 
-    <body>
-        <a target="_blank" href="https://github.com/AmitDavidi?tab=repositories">My github
-            repositories<br>
-        for questions you can reach me at amitdavidi12@gmail.com</a>
-        
-        <h2 style="margin-top: 40px"> Chess </h2>
-        <p style="margin-top: 20px"> Knight's tour visualization 50x50 chess board </p>
+            // Try localStorage preview first (from dashboard preview), else fetch projects.json
+            function loadPreviewIfAny() {
+                try {
+                    const params = new URLSearchParams(location.search);
+                    if (params.get('preview') === '1') {
+                        const raw = localStorage.getItem('amit_dashboard_preview');
+                        if (raw) return JSON.parse(raw);
+                    }
+                } catch (e) { /* ignore */ }
+                return null;
+            }
 
-        <div style="text-align: center;"> <iframe width="640" height="360"
-                src="https://www.youtube.com/embed/-PHtuXZQeJA?vq=hd720p&rel=0" title="Knight's tour 50x50" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-        </div>
+            const preview = loadPreviewIfAny();
+            if (preview) {
+                render(preview);
+                return;
+            }
 
-        <p style="margin-top: 50px"> Chess game - En Passant, Castling, King Check mechanism </p>
-
-        <div style="text-align: center;"> <iframe width="640" height="360"
-                src="https://www.youtube.com/embed/SsIT_lDzYVU?vq=hd720p&rel=0" title="Chess Game" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-        </div>
-
-
-        <p style="margin-top: 50px"> Chess game visualized (PGN parsing) - PGN code taken from one of Magnus
-            Carlsen's game <br>This video includes Square control visualization <br> A RED
-            Square is an abandoned square - no attackers and no defenders <br> A Green Square is a square that is
-            equally attacked and defended </p>
-
-        <div style="text-align: center;"> <iframe width="640" height="360"
-                src="https://www.youtube.com/embed/rgKzu4GFWXA?vq=hd720p&rel=0" title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-        </div>
-
-
-
-        <h2 style="margin-top: 100px"> Path Finding Algorithms </h2>
-        <p> Dijkstra's Algorithm finds the shortest path in a randomly generated maze</p]>
-
-        <div style="text-align: center;"><iframe width="640" height="360"
-                src="https://www.youtube.com/embed/3_v-9UliC3k?vq=hd720p&rel=0" title="Dijkstra's - Maze" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-        </div>
-
-        <p style='margin-top: 50px'> Path finding algorithms project showcase <br> White blocks are barriers <br> Brown
-            blocks are weighted paths - similar to a traffic jam </p>
-
-        <div style="text-align: center;">
-
-            <iframe width="640" height="360" src="https://www.youtube.com/embed/VKVme3K8nco?vq=hd720p&rel=0"
-                title="Path_finding_Showcase" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-
-        </div>
-        <h2 style='margin-top: 100px;'> The Mandelbrot set </h2>
-
-
-        <div style="text-align: center;">
-            <iframe width="640" height="360" src="https://www.youtube.com/embed/LtWhJKSLqWE?vq=hd720p&rel=0"
-                title="Mandelbrot" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-
-
-        </div>
-
-
-        <h2 style='margin-top: 100px;'> Computer vision with Arduino - simple but very fun ! </h2>
-
-        <div style="text-align: center;">
-            <iframe width="640" height="360" src="https://www.youtube.com/embed/GaeUNcdLi3A?vq=hd720p&rel=0"
-                title="CV - arduino" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-
-        </div>
-
-
-
-    </body>
-
+            fetch('projects.json', { cache: 'no-cache' })
+                .then(r => {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                })
+                .then(render)
+                .catch(err => {
+                    console.error('Failed to load projects.json', err);
+                    root.innerHTML = `<div class="error-state">Couldn't load projects.json.<br>Check that the file exists and is valid JSON.</div>`;
+                });
+        })();
+    </script>
+</body>
 
 </html>
