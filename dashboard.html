@@ -776,6 +776,80 @@
         }
 
         .hidden { display: none !important; }
+
+        /* Markdown preview in modal */
+        .md-preview {
+            margin-top: 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text);
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .md-preview h2 { font-size: 1.2rem; margin: 12px 0 6px; font-weight: 700; }
+        .md-preview h3 { font-size: 1rem; margin: 10px 0 6px; font-weight: 600; }
+        .md-preview p { margin-bottom: 10px; color: var(--text-muted); }
+        .md-preview strong { color: var(--text); }
+        .md-preview code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            padding: 1px 5px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            color: var(--tag-cyan);
+        }
+        .md-preview pre {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+        .md-preview pre code { background: transparent; padding: 0; color: var(--text); }
+        .md-preview ul, .md-preview ol { margin-left: 20px; margin-bottom: 10px; }
+        .md-preview a { color: var(--tag-cyan); }
+        .md-preview blockquote { border-left: 2px solid var(--accent); padding-left: 10px; color: var(--text-muted); margin-bottom: 10px; }
+
+        /* Sidebar drag states */
+        .category-item { position: relative; }
+        .category-item.dragging { opacity: 0.4; }
+        .category-item.drag-over { box-shadow: 0 -2px 0 0 var(--accent); }
+        .sidebar-drag-handle {
+            color: var(--text-dim);
+            cursor: grab;
+            font-size: 0.9rem;
+            padding: 0 4px;
+            user-select: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        .category-item:hover .sidebar-drag-handle { opacity: 1; }
+        .sidebar-drag-handle:active { cursor: grabbing; }
+
+        /* Undo/redo */
+        .history-controls {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+        .history-controls button {
+            padding: 7px 10px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            background: transparent;
+            border-right: 1px solid var(--border);
+        }
+        .history-controls button:last-child { border-right: 0; }
+        .history-controls button:hover:not(:disabled) { color: var(--text); background: var(--bg-elevated); }
+        .history-controls button:disabled { color: var(--text-dim); cursor: not-allowed; opacity: 0.5; }
+        .history-controls svg { width: 14px; height: 14px; display: block; }
     </style>
 </head>
 
@@ -792,6 +866,14 @@
                     <span class="dot"></span>
                     <span id="status-text">Ready</span>
                 </span>
+                <div class="history-controls">
+                    <button id="btn-undo" title="Undo (Ctrl+Z)" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></svg>
+                    </button>
+                    <button id="btn-redo" title="Redo (Ctrl+Shift+Z)" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 15-6.7L21 13"/></svg>
+                    </button>
+                </div>
                 <button class="btn btn-ghost btn-sm" id="btn-import" title="Import projects.json">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     Import
@@ -902,9 +984,19 @@
                 </div>
 
                 <div class="field">
-                    <label for="proj-description">Description</label>
-                    <textarea id="proj-description" placeholder="Describe your project. Supports HTML: <strong>, <br>, <em>, etc."></textarea>
-                    <div class="field-hint">HTML is allowed (e.g. <code>&lt;strong&gt;</code>, <code>&lt;br&gt;</code>).</div>
+                    <label for="proj-description">Short description (card preview)</label>
+                    <textarea id="proj-description" placeholder="One-paragraph summary shown on the card. HTML allowed: <strong>, <br>, <em>."></textarea>
+                    <div class="field-hint">HTML is allowed. This is what shows on the projects page card.</div>
+                </div>
+
+                <div class="field">
+                    <label>
+                        Long description (Markdown — for detail page)
+                        <button type="button" class="btn btn-ghost btn-sm" id="md-toggle-preview" style="float:right; margin-top:-4px;">Preview</button>
+                    </label>
+                    <textarea id="proj-long" placeholder="Write a deeper dive in Markdown. Supports ## headings, **bold**, *italic*, `code`, links, lists, code fences." style="min-height: 160px;"></textarea>
+                    <div class="md-preview hidden" id="md-preview"></div>
+                    <div class="field-hint">Shown on <code>project.html?id=…</code>. Headings, lists, code fences all supported.</div>
                 </div>
 
                 <div class="form-row">
@@ -920,6 +1012,28 @@
                             <div class="color-swatch pink" data-color="pink" title="Pink"></div>
                             <div class="color-swatch orange" data-color="orange" title="Orange"></div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="proj-date">Date</label>
+                        <input type="text" id="proj-date" placeholder="e.g. 2024 or Jan 2024">
+                    </div>
+                    <div class="field">
+                        <label for="proj-techstack">Tech stack (comma-separated)</label>
+                        <input type="text" id="proj-techstack" placeholder="e.g. Python, CUDA, OpenCV">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="proj-github">GitHub URL (optional)</label>
+                        <input type="text" id="proj-github" placeholder="https://github.com/...">
+                    </div>
+                    <div class="field">
+                        <label for="proj-demo">Live demo URL (optional)</label>
+                        <input type="text" id="proj-demo" placeholder="https://...">
                     </div>
                 </div>
 
@@ -939,6 +1053,10 @@
             </div>
             <div class="modal-footer">
                 <div class="footer-left">
+                    <button class="btn btn-ghost btn-sm hidden" id="btn-duplicate-project" title="Duplicate this project">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        Duplicate
+                    </button>
                     <button class="btn btn-danger btn-sm hidden" id="btn-delete-project">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
                         Delete
@@ -1044,12 +1162,63 @@
 
         let state = {
             data: structuredClone(DEFAULT_DATA),
-            selectedCategoryId: null,     // id of category currently shown, or 'site'
-            editingProjectId: null,       // null => new
-            editingCategoryId: null,      // null => new
+            selectedCategoryId: null,
+            editingProjectId: null,
+            editingCategoryId: null,
             dirty: false,
-            originalData: null            // for comparing dirty state after load
+            originalData: null,
+            // Undo/redo history — stores JSON snapshots
+            history: [],
+            historyIndex: -1,
+            MAX_HISTORY: 50
         };
+
+        // ============================================================
+        //  History (undo / redo)
+        // ============================================================
+        function pushHistory() {
+            const snapshot = JSON.stringify(state.data);
+            // Drop anything after current pointer (if we undid and now editing)
+            state.history = state.history.slice(0, state.historyIndex + 1);
+            state.history.push(snapshot);
+            if (state.history.length > state.MAX_HISTORY) state.history.shift();
+            state.historyIndex = state.history.length - 1;
+            updateHistoryButtons();
+        }
+        function undo() {
+            if (state.historyIndex <= 0) return;
+            state.historyIndex--;
+            state.data = JSON.parse(state.history[state.historyIndex]);
+            saveLocal();
+            state.dirty = true;
+            setStatus('Undone', 'dirty');
+            if (!state.data.categories.find(c => c.id === state.selectedCategoryId)) {
+                state.selectedCategoryId = state.data.categories[0]?.id || 'site';
+            }
+            renderSidebar();
+            renderContent();
+            updateHistoryButtons();
+        }
+        function redo() {
+            if (state.historyIndex >= state.history.length - 1) return;
+            state.historyIndex++;
+            state.data = JSON.parse(state.history[state.historyIndex]);
+            saveLocal();
+            state.dirty = true;
+            setStatus('Redone', 'dirty');
+            if (!state.data.categories.find(c => c.id === state.selectedCategoryId)) {
+                state.selectedCategoryId = state.data.categories[0]?.id || 'site';
+            }
+            renderSidebar();
+            renderContent();
+            updateHistoryButtons();
+        }
+        function updateHistoryButtons() {
+            const undoBtn = document.getElementById('btn-undo');
+            const redoBtn = document.getElementById('btn-redo');
+            if (undoBtn) undoBtn.disabled = state.historyIndex <= 0;
+            if (redoBtn) redoBtn.disabled = state.historyIndex >= state.history.length - 1;
+        }
 
         // ============================================================
         //  Utils
@@ -1105,6 +1274,12 @@
             return null;
         }
 
+        function initHistory() {
+            state.history = [JSON.stringify(state.data)];
+            state.historyIndex = 0;
+            updateHistoryButtons();
+        }
+
         async function loadInitial() {
             setStatus('Loading…');
             // Prefer localStorage if present
@@ -1113,6 +1288,7 @@
                 state.data = local;
                 state.originalData = JSON.stringify(local);
                 setStatus('Loaded from local storage', 'saved');
+                initHistory();
                 return;
             }
             // Otherwise fetch projects.json
@@ -1129,11 +1305,13 @@
                 state.originalData = JSON.stringify(state.data);
                 setStatus('Started blank (no projects.json)', 'saved');
             }
+            initHistory();
         }
 
-        function setDirty(isDirty) {
+        function setDirty(isDirty, opts) {
             state.dirty = !!isDirty;
             if (state.dirty) {
+                if (!opts?.skipHistory) pushHistory();
                 setStatus('Unsaved changes — export to persist', 'dirty');
             }
         }
@@ -1167,20 +1345,59 @@
         function renderSidebar() {
             const list = $('#category-list');
             list.innerHTML = '';
-            state.data.categories.forEach(cat => {
+            state.data.categories.forEach((cat, idx) => {
                 const count = (cat.projects || []).length;
                 const btn = document.createElement('button');
                 btn.className = 'category-item' + (state.selectedCategoryId === cat.id ? ' active' : '');
                 btn.dataset.categoryId = cat.id;
+                btn.draggable = true;
                 btn.innerHTML = `
+                    <span class="sidebar-drag-handle" title="Drag to reorder">⋮⋮</span>
                     <span class="category-item-label">${escapeHtml(cat.label || cat.title || cat.id)}</span>
                     <span class="category-count">${count}</span>
                 `;
-                btn.addEventListener('click', () => selectCategory(cat.id));
+                btn.addEventListener('click', (e) => {
+                    // Don't treat a drag handle click as selection
+                    if (e.target.classList?.contains('sidebar-drag-handle')) return;
+                    selectCategory(cat.id);
+                });
+
+                // Drag-to-reorder
+                btn.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', cat.id);
+                    btn.classList.add('dragging');
+                });
+                btn.addEventListener('dragend', () => {
+                    btn.classList.remove('dragging');
+                    $$('.category-item.drag-over').forEach(el => el.classList.remove('drag-over'));
+                });
+                btn.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    btn.classList.add('drag-over');
+                });
+                btn.addEventListener('dragleave', () => btn.classList.remove('drag-over'));
+                btn.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    btn.classList.remove('drag-over');
+                    const srcId = e.dataTransfer.getData('text/plain');
+                    if (!srcId || srcId === cat.id) return;
+                    const src = state.data.categories.findIndex(c => c.id === srcId);
+                    const dst = state.data.categories.findIndex(c => c.id === cat.id);
+                    if (src < 0 || dst < 0) return;
+                    const [moved] = state.data.categories.splice(src, 1);
+                    state.data.categories.splice(dst, 0, moved);
+                    saveLocal();
+                    setDirty(true);
+                    renderSidebar();
+                    renderContent();
+                    toast('Category reordered', 'info');
+                });
+
                 list.appendChild(btn);
             });
 
-            // highlight site button
             $$('.category-item[data-view="site"]').forEach(el => {
                 el.classList.toggle('active', state.selectedCategoryId === 'site');
                 el.addEventListener('click', () => selectCategory('site'), { once: true });
@@ -1453,34 +1670,43 @@
             const proj = projectId ? cat.projects.find(p => p.id === projectId) : null;
             $('#project-modal-title').textContent = proj ? 'Edit project' : 'New project';
             $('#btn-delete-project').classList.toggle('hidden', !proj);
+            $('#btn-duplicate-project').classList.toggle('hidden', !proj);
 
-            // Defaults
             const defaults = {
                 type: 'video',
                 title: '',
                 description: '',
+                longDescription: '',
                 tag: '',
                 tagColor: 'purple',
                 size: 'full',
+                date: '',
+                techStack: [],
+                github: '',
+                demoUrl: '',
                 media: {}
             };
             const p = proj || defaults;
 
-            // Type
             selectType(p.type || 'video');
 
-            // Fields
             $('#proj-title').value = p.title || '';
             $('#proj-description').value = p.description || '';
+            $('#proj-long').value = p.longDescription || '';
             $('#proj-tag').value = p.tag || '';
+            $('#proj-date').value = p.date || '';
+            $('#proj-techstack').value = Array.isArray(p.techStack) ? p.techStack.join(', ') : (p.techStack || '');
+            $('#proj-github').value = p.github || '';
+            $('#proj-demo').value = p.demoUrl || '';
             $('#proj-youtube').value = p.media?.youtubeId || '';
             $('#proj-image').value = p.media?.src || '';
             $('#proj-alt').value = p.media?.alt || '';
 
-            // Color
-            $$('.color-swatch').forEach(el => el.classList.toggle('selected', el.dataset.color === (p.tagColor || 'purple')));
+            // Hide the markdown preview when reopening
+            $('#md-preview').classList.add('hidden');
+            $('#md-toggle-preview').textContent = 'Preview';
 
-            // Size
+            $$('.color-swatch').forEach(el => el.classList.toggle('selected', el.dataset.color === (p.tagColor || 'purple')));
             $$('.size-option').forEach(el => el.classList.toggle('selected', el.dataset.size === (p.size || 'full')));
 
             openModal('#project-modal');
@@ -1511,9 +1737,14 @@
             const type = getSelectedType();
             const title = $('#proj-title').value.trim();
             const description = $('#proj-description').value.trim();
+            const longDescription = $('#proj-long').value.trim();
             const tag = $('#proj-tag').value.trim();
             const tagColor = getSelectedColor();
             const size = getSelectedSize();
+            const date = $('#proj-date').value.trim();
+            const techStack = $('#proj-techstack').value.split(',').map(s => s.trim()).filter(Boolean);
+            const github = $('#proj-github').value.trim();
+            const demoUrl = $('#proj-demo').value.trim();
 
             if (!title) {
                 toast('Please enter a title', 'error');
@@ -1532,9 +1763,12 @@
                 media = { src, alt: $('#proj-alt').value.trim() || title };
             }
 
+            const existing = state.editingProjectId ? cat.projects.find(p => p.id === state.editingProjectId) : null;
             const projectData = {
                 id: state.editingProjectId || uid(),
-                type, size, tag, tagColor, title, description, media
+                slug: existing?.slug || slugify(title),
+                type, size, tag, tagColor, title, description, longDescription,
+                date, techStack, github, demoUrl, media
             };
 
             if (state.editingProjectId) {
@@ -1572,6 +1806,83 @@
                     toast('Project deleted');
                 }
             });
+        }
+
+        function duplicateProjectFromModal() {
+            const cat = state.data.categories.find(c => c.id === state.selectedCategoryId);
+            if (!cat || !state.editingProjectId) return;
+            const src = cat.projects.find(p => p.id === state.editingProjectId);
+            if (!src) return;
+            const copy = JSON.parse(JSON.stringify(src));
+            copy.id = uid();
+            copy.title = (src.title || 'Untitled') + ' (copy)';
+            copy.slug = slugify(copy.title);
+            const idx = cat.projects.findIndex(p => p.id === state.editingProjectId);
+            cat.projects.splice(idx + 1, 0, copy);
+            saveLocal();
+            setDirty(true);
+            closeModal('#project-modal');
+            renderSidebar();
+            renderContent();
+            toast('Project duplicated', 'info');
+        }
+
+        // ============================================================
+        //  Markdown preview (for project long description)
+        // ============================================================
+        function mdToHtmlSimple(md) {
+            if (!md) return '<p style="color: var(--text-dim)">Nothing to preview yet.</p>';
+            let src = String(md).replace(/\r\n?/g, '\n');
+            const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const codeBlocks = [];
+            src = src.replace(/```([a-zA-Z0-9_+-]*)\n([\s\S]*?)```/g, (m, lang, code) => {
+                const idx = codeBlocks.length;
+                codeBlocks.push({ lang, code });
+                return `\u0000CB${idx}\u0000`;
+            });
+            src = esc(src);
+            src = src.replace(/`([^`\n]+)`/g, (m, c) => `<code>${c}</code>`);
+            src = src.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+            src = src.replace(/__([^_\n]+)__/g, '<strong>$1</strong>');
+            src = src.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+            src = src.replace(/(^|[^_])_([^_\n]+)_/g, '$1<em>$2</em>');
+            src = src.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, l, u) => `<a href="${u.replace(/"/g,'&quot;')}" target="_blank" rel="noopener">${l}</a>`);
+            const blocks = src.split(/\n{2,}/);
+            return blocks.map(block => {
+                const b = block.trim();
+                if (!b) return '';
+                const cbMatch = b.match(/^\u0000CB(\d+)\u0000$/);
+                if (cbMatch) {
+                    const { code } = codeBlocks[+cbMatch[1]];
+                    return `<pre><code>${esc(code)}</code></pre>`;
+                }
+                if (/^###\s+/.test(b)) return `<h3>${b.replace(/^###\s+/, '')}</h3>`;
+                if (/^##\s+/.test(b)) return `<h2>${b.replace(/^##\s+/, '')}</h2>`;
+                if (/^#\s+/.test(b)) return `<h2>${b.replace(/^#\s+/, '')}</h2>`;
+                if (/^---+$/.test(b)) return '<hr>';
+                if (/^>\s/.test(b)) return `<blockquote>${b.split('\n').map(l => l.replace(/^>\s?/, '')).join('<br>')}</blockquote>`;
+                if (/^[-*]\s+/m.test(b) && b.split('\n').every(l => /^[-*]\s+/.test(l.trim()) || !l.trim())) {
+                    return `<ul>${b.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^[-*]\s+/, '')}</li>`).join('')}</ul>`;
+                }
+                if (/^\d+\.\s+/m.test(b) && b.split('\n').every(l => /^\d+\.\s+/.test(l.trim()) || !l.trim())) {
+                    return `<ol>${b.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^\d+\.\s+/, '')}</li>`).join('')}</ol>`;
+                }
+                return `<p>${b.replace(/\n/g, '<br>')}</p>`;
+            }).join('\n');
+        }
+
+        function toggleMarkdownPreview() {
+            const preview = $('#md-preview');
+            const btn = $('#md-toggle-preview');
+            const ta = $('#proj-long');
+            if (preview.classList.contains('hidden')) {
+                preview.innerHTML = mdToHtmlSimple(ta.value);
+                preview.classList.remove('hidden');
+                btn.textContent = 'Hide preview';
+            } else {
+                preview.classList.add('hidden');
+                btn.textContent = 'Preview';
+            }
         }
 
         // ============================================================
@@ -1747,6 +2058,20 @@
             $('#btn-export').addEventListener('click', exportJson);
             $('#btn-import').addEventListener('click', importJson);
             $('#btn-preview').addEventListener('click', openPreview);
+            $('#btn-undo').addEventListener('click', undo);
+            $('#btn-redo').addEventListener('click', redo);
+
+            // Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y global shortcuts
+            document.addEventListener('keydown', (e) => {
+                const mod = e.ctrlKey || e.metaKey;
+                if (!mod) return;
+                const key = (e.key || '').toLowerCase();
+                // Skip if typing in inputs/textareas (native undo should win there)
+                const inField = /^(input|textarea|select)$/i.test(document.activeElement?.tagName || '');
+                if (inField) return;
+                if (key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+                else if ((key === 'z' && e.shiftKey) || key === 'y') { e.preventDefault(); redo(); }
+            });
             $('#file-input').addEventListener('change', handleFileImport);
             $('#btn-add-category').addEventListener('click', () => openCategoryModal(null));
 
@@ -1773,6 +2098,14 @@
             $('#project-modal-cancel').addEventListener('click', () => closeModal('#project-modal'));
             $('#project-modal-close').addEventListener('click', () => closeModal('#project-modal'));
             $('#btn-delete-project').addEventListener('click', deleteProjectFromModal);
+            $('#btn-duplicate-project').addEventListener('click', duplicateProjectFromModal);
+            $('#md-toggle-preview').addEventListener('click', toggleMarkdownPreview);
+            $('#proj-long').addEventListener('input', () => {
+                // Live-update preview if visible
+                if (!$('#md-preview').classList.contains('hidden')) {
+                    $('#md-preview').innerHTML = mdToHtmlSimple($('#proj-long').value);
+                }
+            });
 
             // Category modal events
             $('#category-modal-save').addEventListener('click', saveCategoryFromModal);

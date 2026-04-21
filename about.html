@@ -5,10 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Amit Davidi</title>
+    <meta name="description" content="Engineer at NVIDIA. Side-project tinkerer — graphics, algorithms, performance-sensitive code.">
+    <meta name="author" content="Amit Davidi">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="About — Amit Davidi">
+    <meta property="og:description" content="Engineer at NVIDIA. Side-project tinkerer — graphics, algorithms, performance-sensitive code.">
+    <meta property="og:url" content="https://amitdavidi.github.io/about.html">
+    <meta property="og:image" content="https://amitdavidi.github.io/og-image.svg">
+    <meta property="og:site_name" content="Amit Davidi">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About — Amit Davidi">
+    <meta name="twitter:description" content="Engineer at NVIDIA. Side-project tinkerer.">
+    <meta name="twitter:image" content="https://amitdavidi.github.io/og-image.svg">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0a0a0f;
@@ -512,10 +528,279 @@
                 padding: 32px 20px;
             }
         }
+
+        /* Theme toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+        .theme-toggle:hover { color: var(--text); border-color: var(--border-hover); }
+        .theme-toggle svg { width: 14px; height: 14px; }
+
+        /* ===========================================================
+           CYBERPUNK THEME
+        =========================================================== */
+        body.cyberpunk {
+            --bg: #05020d;
+            --bg-elevated: #0a0417;
+            --bg-card: #0f0720;
+            --border: rgba(255, 0, 229, 0.22);
+            --border-hover: rgba(0, 245, 255, 0.55);
+            --text: #e8f6ff;
+            --text-muted: #9a8bc7;
+            --text-dim: #6a5a9a;
+            --accent: #ff006e;
+            --accent-2: #00f5ff;
+            --accent-3: #b000ff;
+            --nvidia: #00f5ff;
+            --glow: rgba(255, 0, 229, 0.4);
+            font-family: 'JetBrains Mono', 'Inter', monospace;
+        }
+        body.cyberpunk::before {
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 0, 229, 0.22), transparent 55%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0, 245, 255, 0.20), transparent 55%),
+                radial-gradient(ellipse 70% 60% at 50% 100%, rgba(176, 0, 255, 0.16), transparent 55%);
+        }
+        body.cyberpunk::after {
+            background-image:
+                linear-gradient(rgba(255, 0, 229, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse at center, black 35%, transparent 95%);
+        }
+        body.cyberpunk .scanlines {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            background: repeating-linear-gradient(to bottom,
+                rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 2px,
+                rgba(0, 245, 255, 0.035) 3px, rgba(0, 0, 0, 0) 4px);
+            mix-blend-mode: overlay;
+        }
+        body.cyberpunk nav {
+            background: rgba(5, 2, 13, 0.75);
+            border-bottom: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 229, 0.3);
+        }
+        body.cyberpunk .logo-dot {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-2);
+        }
+        body.cyberpunk .logo span:last-child {
+            color: var(--accent-2);
+            text-shadow: 0 0 8px var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        body.cyberpunk .badge {
+            background: rgba(255, 0, 229, 0.1);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 229, 0.3);
+            color: var(--accent-2);
+            text-shadow: 0 0 6px rgba(0, 245, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .badge-dot {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+        }
+        body.cyberpunk h1 {
+            background: none;
+            -webkit-text-fill-color: initial;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 8px var(--accent-2),
+                0 0 20px var(--accent-2),
+                2px 0 0 var(--accent),
+                -2px 0 0 var(--accent-3);
+            animation: glitch 5s infinite;
+        }
+        @keyframes glitch {
+            0%, 92%, 100% { transform: translate(0, 0); }
+            93% { transform: translate(-1px, 0); }
+            94% { transform: translate(1px, 0); }
+            96% { transform: translate(0, -1px); }
+        }
+        body.cyberpunk .tagline,
+        body.cyberpunk .section p,
+        body.cyberpunk .card-body,
+        body.cyberpunk .card-subtitle {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+        body.cyberpunk .section h2 {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--accent-2);
+        }
+        body.cyberpunk .section-label {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+        body.cyberpunk .avatar {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 40px var(--accent), 0 0 80px rgba(0, 245, 255, 0.4);
+            color: #000;
+            border: 2px solid var(--accent-2);
+        }
+        body.cyberpunk .avatar::after { background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)); }
+        body.cyberpunk .card {
+            background: rgba(15, 7, 32, 0.6);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(255, 0, 229, 0.15);
+            backdrop-filter: blur(8px);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+        }
+        body.cyberpunk .card:hover {
+            border-color: var(--accent-2);
+            box-shadow: 0 0 32px rgba(0, 245, 255, 0.35);
+        }
+        body.cyberpunk .card-title,
+        body.cyberpunk .nvidia-accent {
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+        }
+        body.cyberpunk .nvidia-accent::before {
+            background: var(--accent-2);
+            box-shadow: 0 0 10px var(--accent-2);
+        }
+        body.cyberpunk .skill-pill {
+            background: rgba(15, 7, 32, 0.6);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 10px rgba(255, 0, 229, 0.2);
+            border-radius: 2px;
+        }
+        body.cyberpunk .skill-pill:hover {
+            border-color: var(--accent-2);
+            color: var(--accent-2);
+            text-shadow: 0 0 8px var(--accent-2);
+            box-shadow: 0 0 16px rgba(0, 245, 255, 0.4);
+        }
+        body.cyberpunk .interest-list li {
+            background: rgba(15, 7, 32, 0.5);
+            border: 1px solid var(--accent);
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+        }
+        body.cyberpunk .interest-list strong {
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+        }
+        body.cyberpunk .interest-list .icon { filter: drop-shadow(0 0 6px var(--accent)); }
+        body.cyberpunk .cta {
+            background: linear-gradient(135deg, rgba(255, 0, 229, 0.08), rgba(0, 245, 255, 0.08));
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 30px rgba(255, 0, 229, 0.2);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        }
+        body.cyberpunk .cta h3 {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--accent);
+        }
+        body.cyberpunk .btn-primary {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 14px rgba(255, 0, 110, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .btn-primary:hover {
+            background: var(--accent);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 24px var(--accent);
+        }
+        body.cyberpunk .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--accent-2);
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .btn-secondary:hover {
+            background: var(--accent-2);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 24px var(--accent-2);
+        }
+        body.cyberpunk .nav-links a {
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .nav-links a:hover,
+        body.cyberpunk .nav-links a.active {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+        body.cyberpunk .btn-nav {
+            border: 1px solid var(--accent) !important;
+            background: transparent !important;
+            color: var(--accent) !important;
+            text-shadow: 0 0 6px var(--accent);
+        }
+        body.cyberpunk .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 12px rgba(255, 0, 110, 0.4);
+        }
+        body.cyberpunk .theme-toggle:hover {
+            background: var(--accent);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px var(--accent);
+        }
+        body.cyberpunk footer {
+            border-top: 1px solid var(--accent);
+            box-shadow: 0 -10px 30px rgba(255, 0, 229, 0.15);
+        }
+        body.cyberpunk .footer-email a {
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+        }
     </style>
 </head>
 
 <body>
+    <script>
+        try {
+            if (localStorage.getItem('theme') === 'cyberpunk') document.body.classList.add('cyberpunk');
+        } catch (e) {}
+    </script>
+    <div class="scanlines" aria-hidden="true"></div>
     <nav>
         <div class="nav-inner">
             <a href="index.html" class="logo">
@@ -525,6 +810,10 @@
             <div class="nav-links">
                 <a href="index.html">Projects</a>
                 <a href="about.html" class="active">About</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle cyberpunk theme" title="Toggle cyberpunk mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span class="theme-label">Cyberpunk</span>
+                </button>
                 <a class="btn-nav" target="_blank" href="https://github.com/AmitDavidi?tab=repositories">GitHub →</a>
             </div>
         </div>
@@ -666,6 +955,36 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('theme-toggle');
+            if (!btn) return;
+            const label = btn.querySelector('.theme-label');
+            function apply(theme) {
+                if (theme === 'cyberpunk') {
+                    document.body.classList.add('cyberpunk');
+                    if (label) label.textContent = 'Normal';
+                } else {
+                    document.body.classList.remove('cyberpunk');
+                    if (label) label.textContent = 'Cyberpunk';
+                }
+            }
+            try { apply(localStorage.getItem('theme') || 'default'); } catch (e) {}
+            btn.addEventListener('click', () => {
+                const next = document.body.classList.contains('cyberpunk') ? 'default' : 'cyberpunk';
+                apply(next);
+                try { localStorage.setItem('theme', next); } catch (e) {}
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.shiftKey && (e.key === 'C' || e.key === 'c') &&
+                    !/^(input|textarea|select)$/i.test(document.activeElement?.tagName || '')) {
+                    e.preventDefault();
+                    btn.click();
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>

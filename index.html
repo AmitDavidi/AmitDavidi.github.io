@@ -5,10 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amit Davidi — Projects & Demos</title>
+    <meta name="description" content="Amit Davidi — NVIDIA engineer. A portfolio of visual experiments: chess engines, pathfinding, fractals, computer vision.">
+    <meta name="author" content="Amit Davidi">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <!-- Open Graph / social cards -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Amit Davidi — Projects & Demos">
+    <meta property="og:description" content="A portfolio of visual experiments: chess engines, pathfinding, fractals, computer vision.">
+    <meta property="og:url" content="https://amitdavidi.github.io/">
+    <meta property="og:image" content="https://amitdavidi.github.io/og-image.svg">
+    <meta property="og:site_name" content="Amit Davidi">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Amit Davidi — Projects & Demos">
+    <meta name="twitter:description" content="A portfolio of visual experiments: chess engines, pathfinding, fractals, computer vision.">
+    <meta name="twitter:image" content="https://amitdavidi.github.io/og-image.svg">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+
+    <!-- Preconnect / preload hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://i.ytimg.com">
+    <link rel="preconnect" href="https://www.youtube.com">
+    <link rel="preconnect" href="https://www.youtube-nocookie.com">
+    <link rel="dns-prefetch" href="https://img.youtube.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Amit Davidi",
+      "email": "amitdavidi12@gmail.com",
+      "url": "https://amitdavidi.github.io/",
+      "jobTitle": "Engineer",
+      "worksFor": { "@type": "Organization", "name": "NVIDIA" },
+      "sameAs": ["https://github.com/AmitDavidi"]
+    }
+    </script>
     <style>
         :root {
             --bg: #0a0a0f;
@@ -526,10 +563,535 @@
         .project-card.text-only .project-title {
             font-size: 1.4rem;
         }
+
+        /* ===========================================================
+           Click-to-play YouTube thumbnails (perf win)
+        =========================================================== */
+        .yt-lite {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .yt-lite::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--yt-thumb);
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease, filter 0.3s ease;
+        }
+        .yt-lite:hover::before {
+            transform: scale(1.04);
+            filter: brightness(1.1);
+        }
+        .yt-lite::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 68px;
+            height: 48px;
+            margin: -24px 0 0 -34px;
+            background-color: rgba(15, 7, 32, 0.85);
+            border-radius: 14px;
+            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
+            transition: all 0.2s ease;
+        }
+        .yt-lite:hover::after {
+            background-color: #ff0033;
+            box-shadow: 0 8px 30px -4px rgba(255, 0, 51, 0.6);
+        }
+        .yt-lite .yt-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 16px;
+            border-color: transparent transparent transparent white;
+            margin: -10px 0 0 -5px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .yt-lite iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .yt-lite.activated::before,
+        .yt-lite.activated::after,
+        .yt-lite.activated .yt-play-icon { display: none; }
+
+        /* Project meta (tech stack + date + links) */
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+            align-items: center;
+        }
+        .tech-pill {
+            font-size: 0.72rem;
+            padding: 3px 9px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+        .meta-dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--text-dim);
+            margin: 0 4px;
+        }
+        .meta-date {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .project-links {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+        }
+        .project-link:hover {
+            color: var(--text);
+            background: var(--bg-elevated);
+            border-color: var(--border);
+        }
+        .project-link svg { width: 12px; height: 12px; }
+
+        /* Make project title clickable */
+        .project-title-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.15s ease;
+            background-image: linear-gradient(var(--accent), var(--accent));
+            background-size: 0 1px;
+            background-position: 0 100%;
+            background-repeat: no-repeat;
+            transition: background-size 0.3s ease;
+        }
+        .project-title-link:hover {
+            color: var(--text);
+            background-size: 100% 1px;
+        }
+
+        /* ===========================================================
+           Scroll reveal
+        =========================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        /* ===========================================================
+           Cyberpunk boot overlay
+        =========================================================== */
+        .boot-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .boot-overlay.active {
+            opacity: 1;
+            animation: boot-fade 1.2s ease forwards;
+        }
+        .boot-overlay .boot-text {
+            color: #00f5ff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 12px #00f5ff, 0 0 24px #00f5ff;
+            animation: boot-flicker 0.1s infinite;
+        }
+        @keyframes boot-fade {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; pointer-events: none; }
+        }
+        @keyframes boot-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        /* ===========================================================
+           Theme toggle button
+        =========================================================== */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+        .theme-toggle:hover {
+            color: var(--text);
+            border-color: var(--border-hover);
+        }
+        .theme-toggle svg { width: 14px; height: 14px; }
+        .theme-toggle .theme-label { font-weight: 500; }
+
+        /* ===========================================================
+           CYBERPUNK THEME — for lolz
+        =========================================================== */
+        body.cyberpunk {
+            --bg: #05020d;
+            --bg-elevated: #0a0417;
+            --bg-card: #0f0720;
+            --border: rgba(255, 0, 229, 0.22);
+            --border-hover: rgba(0, 245, 255, 0.55);
+            --text: #e8f6ff;
+            --text-muted: #9a8bc7;
+            --text-dim: #6a5a9a;
+            --accent: #ff006e;
+            --accent-2: #00f5ff;
+            --accent-3: #b000ff;
+            --glow: rgba(255, 0, 229, 0.4);
+            font-family: 'JetBrains Mono', 'Inter', monospace;
+        }
+
+        body.cyberpunk::before {
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 0, 229, 0.22), transparent 55%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0, 245, 255, 0.20), transparent 55%),
+                radial-gradient(ellipse 70% 60% at 50% 100%, rgba(176, 0, 255, 0.16), transparent 55%);
+        }
+
+        body.cyberpunk::after {
+            background-image:
+                linear-gradient(rgba(255, 0, 229, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse at center, black 35%, transparent 95%);
+        }
+
+        /* Scanlines overlay */
+        body.cyberpunk .scanlines {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 0px,
+                rgba(0, 0, 0, 0) 2px,
+                rgba(0, 245, 255, 0.035) 3px,
+                rgba(0, 0, 0, 0) 4px
+            );
+            mix-blend-mode: overlay;
+        }
+
+        body.cyberpunk .scanlines::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 245, 255, 0.06),
+                rgba(255, 0, 229, 0.03) 50%,
+                transparent
+            );
+            animation: scan-sweep 6s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scan-sweep {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        body.cyberpunk nav {
+            background: rgba(5, 2, 13, 0.75);
+            border-bottom: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 229, 0.3);
+        }
+
+        body.cyberpunk .logo-dot {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-2);
+            animation: neon-pulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5) saturate(1.3); }
+        }
+
+        body.cyberpunk .logo span:last-child {
+            color: var(--accent-2);
+            text-shadow: 0 0 8px var(--accent-2), 0 0 16px rgba(0, 245, 255, 0.5);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        body.cyberpunk .badge {
+            background: rgba(255, 0, 229, 0.1);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 229, 0.3), inset 0 0 12px rgba(255, 0, 229, 0.08);
+            color: var(--accent-2);
+            text-shadow: 0 0 6px rgba(0, 245, 255, 0.8);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+        }
+        body.cyberpunk .badge-dot {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+        }
+
+        body.cyberpunk .hero h1 {
+            background: none;
+            -webkit-text-fill-color: initial;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow:
+                0 0 8px var(--accent-2),
+                0 0 20px var(--accent-2),
+                2px 0 0 var(--accent),
+                -2px 0 0 var(--accent-3);
+            animation: glitch 5s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 92%, 100% {
+                text-shadow:
+                    0 0 8px var(--accent-2),
+                    0 0 20px var(--accent-2),
+                    2px 0 0 var(--accent),
+                    -2px 0 0 var(--accent-3);
+                transform: translate(0, 0);
+            }
+            93% { text-shadow: 0 0 8px var(--accent-2), 4px 0 0 var(--accent), -4px 0 0 var(--accent-3); transform: translate(-1px, 0); }
+            94% { text-shadow: 0 0 8px var(--accent-2), -3px 0 0 var(--accent), 3px 0 0 var(--accent-3); transform: translate(1px, 0); }
+            96% { text-shadow: 0 0 8px var(--accent-2), 2px 2px 0 var(--accent), -2px -2px 0 var(--accent-3); transform: translate(0, -1px); }
+        }
+
+        body.cyberpunk .hero .subtitle,
+        body.cyberpunk .project-desc,
+        body.cyberpunk .section-desc {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        body.cyberpunk .section-category {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+
+        body.cyberpunk .section-title {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--accent-2);
+        }
+
+        body.cyberpunk .btn-primary {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 14px rgba(255, 0, 110, 0.5), inset 0 0 10px rgba(255, 0, 110, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .btn-primary:hover {
+            background: var(--accent);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 24px var(--accent), 0 0 48px var(--accent);
+        }
+
+        body.cyberpunk .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--accent-2);
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .btn-secondary:hover {
+            background: var(--accent-2);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 24px var(--accent-2);
+        }
+
+        body.cyberpunk .nav-links a {
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        body.cyberpunk .nav-links a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent); }
+        body.cyberpunk .btn-nav {
+            border: 1px solid var(--accent) !important;
+            background: transparent !important;
+            color: var(--accent) !important;
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 12px rgba(255, 0, 110, 0.3);
+        }
+
+        body.cyberpunk .project-card {
+            background: rgba(15, 7, 32, 0.6);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            box-shadow:
+                0 0 20px rgba(255, 0, 229, 0.15),
+                inset 0 0 20px rgba(0, 245, 255, 0.03);
+            backdrop-filter: blur(8px);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+        }
+        body.cyberpunk .project-card:hover {
+            border-color: var(--accent-2);
+            box-shadow:
+                0 0 32px rgba(0, 245, 255, 0.35),
+                inset 0 0 20px rgba(255, 0, 229, 0.06);
+            transform: translateY(-4px);
+        }
+        body.cyberpunk .project-card::before { display: none; }
+
+        body.cyberpunk .project-title {
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        body.cyberpunk .project-tag {
+            background: rgba(255, 0, 229, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 10px rgba(255, 0, 229, 0.3);
+            border-radius: 2px;
+        }
+        body.cyberpunk .project-tag.cyan {
+            background: rgba(0, 245, 255, 0.12);
+            color: var(--accent-2);
+            border-color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+        }
+        body.cyberpunk .project-tag.pink {
+            background: rgba(176, 0, 255, 0.15);
+            color: var(--accent-3);
+            border-color: var(--accent-3);
+            text-shadow: 0 0 6px var(--accent-3);
+        }
+        body.cyberpunk .project-tag.orange {
+            background: rgba(250, 255, 0, 0.1);
+            color: #faff00;
+            border-color: #faff00;
+            text-shadow: 0 0 6px #faff00;
+        }
+
+        body.cyberpunk .project-desc strong {
+            color: var(--accent-2);
+            text-shadow: 0 0 4px var(--accent-2);
+        }
+
+        body.cyberpunk footer {
+            border-top: 1px solid var(--accent);
+            box-shadow: 0 -10px 30px rgba(255, 0, 229, 0.15);
+        }
+        body.cyberpunk .footer-email a {
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+        }
+
+        body.cyberpunk .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 12px rgba(255, 0, 110, 0.4);
+        }
+        body.cyberpunk .theme-toggle:hover {
+            background: var(--accent);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        body.cyberpunk .loading-state,
+        body.cyberpunk .error-state {
+            color: var(--accent-2);
+            text-shadow: 0 0 6px var(--accent-2);
+        }
+
+        body.cyberpunk iframe {
+            border: 1px solid var(--accent-2);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
     </style>
 </head>
 
 <body>
+    <script>
+        // Apply theme ASAP to avoid flash
+        try {
+            if (localStorage.getItem('theme') === 'cyberpunk') document.body.classList.add('cyberpunk');
+        } catch (e) {}
+    </script>
+    <div class="scanlines" aria-hidden="true"></div>
     <nav>
         <div class="nav-inner">
             <div class="logo">
@@ -538,6 +1100,10 @@
             </div>
             <div class="nav-links" id="nav-links">
                 <a href="about.html">About</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle cyberpunk theme" title="Toggle cyberpunk mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span class="theme-label">Cyberpunk</span>
+                </button>
                 <a class="btn-nav" target="_blank" href="https://github.com/AmitDavidi?tab=repositories">GitHub →</a>
             </div>
         </div>
@@ -573,6 +1139,17 @@
         <section class="projects" id="projects-root">
             <div class="loading-state">Loading projects…</div>
         </section>
+        <noscript>
+            <section class="projects">
+                <div class="error-state" style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+                    This portfolio loads projects dynamically and requires JavaScript.<br>
+                    You can still browse everything on
+                    <a style="color: var(--accent-2)" href="https://github.com/AmitDavidi?tab=repositories">my GitHub</a>,
+                    or read the raw data in
+                    <a style="color: var(--accent-2)" href="projects.json">projects.json</a>.
+                </div>
+            </section>
+        </noscript>
     </div>
 
     <footer>
@@ -596,6 +1173,63 @@
 
     <script>
         (function () {
+            // ----- Theme toggle (with Shift+C shortcut, Konami code, boot animation) -----
+            const themeBtn = document.getElementById('theme-toggle');
+            function showBootOverlay() {
+                const existing = document.querySelector('.boot-overlay');
+                if (existing) existing.remove();
+                const overlay = document.createElement('div');
+                overlay.className = 'boot-overlay active';
+                overlay.innerHTML = '<div class="boot-text">SYSTEM ONLINE</div>';
+                document.body.appendChild(overlay);
+                setTimeout(() => overlay.remove(), 1300);
+            }
+            function applyTheme(theme, opts) {
+                const wasActive = document.body.classList.contains('cyberpunk');
+                const label = themeBtn?.querySelector('.theme-label');
+                if (theme === 'cyberpunk') {
+                    if (!wasActive && opts?.withBoot) showBootOverlay();
+                    document.body.classList.add('cyberpunk');
+                    if (label) label.textContent = 'Normal';
+                } else {
+                    document.body.classList.remove('cyberpunk');
+                    if (label) label.textContent = 'Cyberpunk';
+                }
+            }
+            function toggleTheme(withBoot) {
+                const next = document.body.classList.contains('cyberpunk') ? 'default' : 'cyberpunk';
+                applyTheme(next, { withBoot: withBoot && next === 'cyberpunk' });
+                try { localStorage.setItem('theme', next); } catch (e) {}
+            }
+            try { applyTheme(localStorage.getItem('theme') || 'default'); } catch (e) {}
+            if (themeBtn) themeBtn.addEventListener('click', () => toggleTheme(true));
+
+            // Keyboard shortcut: Shift+C
+            document.addEventListener('keydown', (e) => {
+                if (e.shiftKey && (e.key === 'C' || e.key === 'c') &&
+                    !/^(input|textarea|select)$/i.test(document.activeElement?.tagName || '')) {
+                    e.preventDefault();
+                    toggleTheme(true);
+                }
+            });
+
+            // Konami code: ↑ ↑ ↓ ↓ ← → ← → B A
+            const konami = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
+            let konamiPos = 0;
+            document.addEventListener('keydown', (e) => {
+                const key = (e.key || '').toLowerCase();
+                if (key === konami[konamiPos]) {
+                    konamiPos++;
+                    if (konamiPos === konami.length) {
+                        konamiPos = 0;
+                        if (!document.body.classList.contains('cyberpunk')) toggleTheme(true);
+                        else showBootOverlay();
+                    }
+                } else {
+                    konamiPos = key === konami[0] ? 1 : 0;
+                }
+            });
+
             const root = document.getElementById('projects-root');
             const navLinks = document.getElementById('nav-links');
             const heroBadge = document.getElementById('hero-badge');
@@ -617,16 +1251,20 @@
 
             function renderProjectMedia(p) {
                 if (p.type === 'video') {
-                    const id = encodeURIComponent(p.media?.youtubeId || '');
+                    const id = p.media?.youtubeId || '';
                     const title = escapeAttr(p.media?.title || p.title || 'video');
                     if (!id) return '';
+                    const safeId = escapeAttr(id);
+                    // Lite YouTube embed — uses a thumbnail, loads iframe on click
                     return `
-                        <div class="project-video">
-                            <iframe src="https://www.youtube.com/embed/${id}?vq=hd720p&rel=0"
-                                title="${title}"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen loading="lazy"></iframe>
+                        <div class="yt-lite"
+                             data-yt-id="${safeId}"
+                             data-yt-title="${title}"
+                             style="--yt-thumb: url('https://i.ytimg.com/vi/${safeId}/hqdefault.jpg')"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Play ${title}">
+                            <div class="yt-play-icon" aria-hidden="true"></div>
                         </div>`;
                 }
                 if (p.type === 'image') {
@@ -638,27 +1276,56 @@
                 return '';
             }
 
+            function renderProjectMeta(p) {
+                const stack = Array.isArray(p.techStack) ? p.techStack : [];
+                const pills = stack.map(t => `<span class="tech-pill">${escapeHtml(t)}</span>`).join('');
+                const date = p.date ? `<span class="meta-date">${escapeHtml(p.date)}</span>` : '';
+                const links = [];
+                if (p.github) {
+                    links.push(`<a class="project-link" href="${escapeAttr(p.github)}" target="_blank" rel="noopener" title="View on GitHub" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                        Code
+                    </a>`);
+                }
+                if (p.demoUrl) {
+                    links.push(`<a class="project-link" href="${escapeAttr(p.demoUrl)}" target="_blank" rel="noopener" title="Live demo" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Demo
+                    </a>`);
+                }
+                if (!pills && !date && !links.length) return '';
+                const linksHtml = links.length ? `<div class="project-links">${links.join('')}</div>` : '';
+                const dotHtml = (pills && date) ? '<span class="meta-dot"></span>' : '';
+                return `<div class="project-meta">${pills}${dotHtml}${date}${linksHtml}</div>`;
+            }
+
             function renderProjectCard(p) {
                 const tagClass = p.tagColor && p.tagColor !== 'purple' ? ` ${escapeAttr(p.tagColor)}` : '';
                 const tagHtml = p.tag ? `<span class="project-tag${tagClass}">${escapeHtml(p.tag)}</span>` : '';
-                const titleHtml = p.title ? `<h3 class="project-title">${escapeHtml(p.title)}</h3>` : '';
-                // Description is stored as user-controlled HTML so <strong>, <br>, notes, swatches work.
+                const slug = escapeAttr(p.slug || p.id || '');
+                const titleHtml = p.title
+                    ? `<h3 class="project-title"><a class="project-title-link" href="project.html?id=${slug}">${escapeHtml(p.title)}</a></h3>`
+                    : '';
                 const descHtml = p.description ? `<p class="project-desc">${p.description}</p>` : '';
+                const metaHtml = renderProjectMeta(p);
                 const media = renderProjectMedia(p);
                 const textOnly = p.type === 'text' || !media;
                 return `
-                    <article class="project-card${textOnly ? ' text-only' : ''}" data-id="${escapeAttr(p.id || '')}">
+                    <article class="project-card reveal${textOnly ? ' text-only' : ''}" data-id="${escapeAttr(p.id || '')}">
                         ${media}
                         <div class="project-content">
                             ${tagHtml}
                             ${titleHtml}
                             ${descHtml}
+                            ${metaHtml}
                         </div>
                     </article>`;
             }
 
             function renderCategory(cat) {
                 const projects = Array.isArray(cat.projects) ? cat.projects : [];
+                // Hoist the reveal class onto the section header too
+                void projects;
                 // Group consecutive "half"-size projects into two-col grids, others into single-col.
                 const groups = [];
                 let current = null;
@@ -679,7 +1346,7 @@
                 const number = cat.number ? `${escapeHtml(cat.number)} — ` : '';
                 return `
                     <div id="${escapeAttr(cat.id || '')}" class="category-group">
-                        <div class="section-header">
+                        <div class="section-header reveal">
                             <div class="section-category">${number}${escapeHtml(cat.label || '')}</div>
                             <h2 class="section-title">${escapeHtml(cat.title || '')}</h2>
                             ${cat.description ? `<p class="section-desc">${escapeHtml(cat.description)}</p>` : ''}
@@ -714,6 +1381,50 @@
                 root.innerHTML = categories.map(renderCategory).join('') ||
                     `<div class="loading-state">No projects yet. Visit the <a href="dashboard.html" style="color:var(--accent-2)">dashboard</a> to add some.</div>`;
                 renderNav(categories);
+                attachLiteYouTube();
+                attachScrollReveal();
+            }
+
+            // Click/keyboard activation of YouTube lite embeds
+            function attachLiteYouTube() {
+                document.querySelectorAll('.yt-lite').forEach(el => {
+                    if (el.dataset.wired) return;
+                    el.dataset.wired = '1';
+                    const activate = () => {
+                        if (el.classList.contains('activated')) return;
+                        const id = el.dataset.ytId;
+                        const title = el.dataset.ytTitle || 'video';
+                        const iframe = document.createElement('iframe');
+                        iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&vq=hd720p`);
+                        iframe.setAttribute('title', title);
+                        iframe.setAttribute('frameborder', '0');
+                        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                        iframe.setAttribute('allowfullscreen', '');
+                        el.appendChild(iframe);
+                        el.classList.add('activated');
+                    };
+                    el.addEventListener('click', activate);
+                    el.addEventListener('keydown', e => {
+                        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+                    });
+                });
+            }
+
+            // Fade-in on scroll
+            function attachScrollReveal() {
+                if (!('IntersectionObserver' in window)) {
+                    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+                    return;
+                }
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+                document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el));
             }
 
             // Try localStorage preview first (from dashboard preview), else fetch projects.json

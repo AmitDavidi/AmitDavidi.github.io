@@ -4,6 +4,13 @@
     "title": "Projects & Demos",
     "subtitle": "A collection of visual experiments spanning algorithms, pathfinding, fractals, and computer vision — built for the joy of making things work."
   },
+  "meta": {
+    "name": "Amit Davidi",
+    "email": "amitdavidi12@gmail.com",
+    "github": "https://github.com/AmitDavidi",
+    "siteUrl": "https://amitdavidi.github.io",
+    "description": "Amit Davidi — NVIDIA engineer. A portfolio of visual experiments: chess engines, pathfinding, fractals, computer vision."
+  },
   "categories": [
     {
       "id": "chess",
@@ -14,32 +21,47 @@
       "projects": [
         {
           "id": "knights-tour-50",
+          "slug": "knights-tour-50",
           "type": "video",
           "size": "half",
           "tag": "Algorithm",
           "tagColor": "purple",
           "title": "Knight's Tour — 50×50",
           "description": "Visualization of the Knight's Tour problem solved on a massive 50×50 chess board, watching the knight traverse every square exactly once.",
+          "longDescription": "## The Knight's Tour\n\nThe **Knight's Tour** is one of those classic problems that looks simple on paper: can a knight visit every square on a chess board exactly once?\n\nOn an 8×8 board you can solve it by hand. On a **50×50 board**, naive backtracking explodes — so I used **Warnsdorff's heuristic** (always move to the square with the fewest onward moves) to guide the search.\n\n### What you're watching\nThe knight steps through all 2,500 squares, leaving a colored trail behind. Squares light up as they're visited, and the algorithm rarely needs to backtrack thanks to the heuristic.\n\n### Takeaway\nGreedy heuristics can turn an intractable search into something you can watch in real time.",
+          "date": "2022",
+          "techStack": ["Python", "Pygame"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "-PHtuXZQeJA", "title": "Knight's tour 50x50" }
         },
         {
           "id": "full-chess-game",
+          "slug": "full-chess-game",
           "type": "video",
           "size": "half",
           "tag": "Game Engine",
           "tagColor": "purple",
           "title": "Full Chess Game",
           "description": "A complete chess implementation featuring <strong>En Passant</strong>, <strong>Castling</strong>, and a full <strong>King Check</strong> detection mechanism.",
+          "longDescription": "## A chess engine from scratch\n\nWriting a chess game sounds straightforward until you hit the edge cases. This project implements **the full ruleset**:\n\n- **Standard moves** for every piece\n- **En Passant** — the pawn capture that trips up every beginner\n- **Castling** (king-side and queen-side) with all legality checks\n- **King check & checkmate detection** using legal-move generation\n- **Promotion** when a pawn reaches the last rank\n\n### Architecture\nThe board is represented as a 2D array of piece objects. Each piece knows how to generate its *pseudo-legal* moves; the game loop filters them against check rules to produce *legal* moves.\n\n### What I learned\nRules interact in surprising ways — you can't castle *through* check, you can't castle *out of* check, and en passant is only legal on the immediate reply. Writing the test cases was more fun than writing the engine.",
+          "date": "2022",
+          "techStack": ["Python", "Pygame"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "SsIT_lDzYVU", "title": "Chess Game" }
         },
         {
           "id": "pgn-square-control",
+          "slug": "pgn-square-control",
           "type": "video",
           "size": "full",
           "tag": "Analysis",
           "tagColor": "purple",
           "title": "PGN Parsing + Square Control",
           "description": "A Magnus Carlsen game visualized through custom PGN parsing, with a square-control heatmap overlay.<span class=\"note\"><span class=\"swatch\" style=\"background:#e74c3c\"></span><strong>Red</strong> — abandoned squares with no attackers or defenders.</span><span class=\"note\"><span class=\"swatch\" style=\"background:#2ecc71\"></span><strong>Green</strong> — squares equally attacked and defended.</span>",
+          "longDescription": "## Watching a Magnus Carlsen game through a new lens\n\nThis project parses **PGN (Portable Game Notation)** files directly — no external libraries — and replays a real tournament game move by move, layering a **square-control heatmap** on top of the board.\n\n### The heatmap\nFor every square, I count the number of attackers and defenders of each color:\n\n- **Red squares** — nobody controls them; they're floating in no-man's-land\n- **Green squares** — attack and defense are perfectly balanced\n- **Colored gradient** — advantage goes to the stronger side\n\nIt's a cheap approximation of positional understanding, but even in a simple form it reveals why certain piece placements *feel* strong: they shift the control map.",
+          "date": "2023",
+          "techStack": ["Python", "Pygame"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "rgKzu4GFWXA", "title": "PGN Parsing - Magnus Carlsen" }
         }
       ]
@@ -53,22 +75,32 @@
       "projects": [
         {
           "id": "dijkstra-maze",
+          "slug": "dijkstra-maze",
           "type": "video",
           "size": "half",
           "tag": "Dijkstra",
           "tagColor": "cyan",
           "title": "Dijkstra on a Random Maze",
           "description": "Dijkstra's algorithm discovering the shortest path through a procedurally generated maze, one cell at a time.",
+          "longDescription": "## Dijkstra, visualized\n\nDijkstra's algorithm is the classical solution for finding the **shortest path** in a graph with non-negative edge weights. On a grid it's almost too easy — so I added a **procedurally generated maze** to make it interesting.\n\n### Maze generation\nThe maze is carved using **recursive backtracking** — start anywhere, dig a tunnel, keep going until you dead-end, then backtrack. The result is a perfect maze (exactly one path between any two points).\n\n### The search\nDijkstra explores outward from the start in concentric waves of increasing distance. The frontier glows as it expands; once it reaches the target, we trace the parent pointers backward to reveal the shortest path.",
+          "date": "2022",
+          "techStack": ["Python", "Pygame"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "3_v-9UliC3k", "title": "Dijkstra's - Maze" }
         },
         {
           "id": "pathfinding-showcase",
+          "slug": "pathfinding-showcase",
           "type": "video",
           "size": "half",
           "tag": "Showcase",
           "tagColor": "cyan",
           "title": "Pathfinding Showcase",
           "description": "A broader tour of pathfinding approaches with obstacles and weighted terrain.<span class=\"note\"><span class=\"swatch\" style=\"background:#ffffff;border:1px solid #333\"></span><strong>White</strong> — impassable barriers.</span><span class=\"note\"><span class=\"swatch\" style=\"background:#8b5a2b\"></span><strong>Brown</strong> — weighted paths, like a traffic jam.</span>",
+          "longDescription": "## A tour of pathfinding algorithms\n\nThis is the extended showcase — multiple algorithms running on the same grid with obstacles and **weighted terrain**.\n\n### The grid\n- **White blocks** — impassable walls\n- **Brown blocks** — weighted paths that cost extra to traverse (think traffic jam)\n- **Start and goal** — user-placed\n\n### Algorithms compared\n- **Dijkstra** — optimal but doesn't know where it's going\n- **A\\*** — optimal *and* goal-directed (uses Manhattan distance heuristic)\n- **Greedy Best-First** — fast but not always optimal\n\nWatching Dijkstra flood uniformly while A* laser-focuses toward the goal is the best way to understand why heuristics matter.",
+          "date": "2022",
+          "techStack": ["Python", "Pygame"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "VKVme3K8nco", "title": "Path Finding Showcase" }
         }
       ]
@@ -82,12 +114,17 @@
       "projects": [
         {
           "id": "mandelbrot-explorer",
+          "slug": "mandelbrot-explorer",
           "type": "video",
           "size": "full",
           "tag": "Fractal",
           "tagColor": "pink",
           "title": "Mandelbrot Set Explorer",
           "description": "Rendering and zooming into the infinite detail of the Mandelbrot set — where simple iteration produces stunning complexity.",
+          "longDescription": "## The Mandelbrot Set\n\nThe definition is four lines of math: for each point `c` in the complex plane, iterate `z = z² + c` starting from `z = 0`. If `|z|` stays bounded forever, the point belongs to the set.\n\nFrom that trivial rule comes one of the most visually rich objects in mathematics.\n\n### What the renderer does\n- Iterates each pixel until `|z| > 2` or the max iteration count is reached\n- **Colors** pixels by how quickly they escape (fast escape = light, slow escape = dark)\n- Supports **smooth zoom** — as you zoom in, new detail emerges that's never been rendered before\n\n### The rabbit hole\nZoom deep enough and you find **miniature copies** of the full set buried inside itself. That self-similarity is the defining feature of a fractal.",
+          "date": "2023",
+          "techStack": ["Python", "NumPy"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "LtWhJKSLqWE", "title": "Mandelbrot" }
         }
       ]
@@ -101,12 +138,17 @@
       "projects": [
         {
           "id": "cv-arduino",
+          "slug": "cv-arduino",
           "type": "video",
           "size": "full",
           "tag": "Hardware",
           "tagColor": "orange",
           "title": "Arduino Computer Vision",
           "description": "Live computer vision driving an Arduino — simple in concept, but surprisingly satisfying to watch in action.",
+          "longDescription": "## Webcam → Python → Arduino\n\nThe pitch is simple: your webcam sees something, Python decides what to do, and an Arduino *physically* reacts. Closing the loop between vision and hardware.\n\n### The stack\n- **OpenCV** for frame capture and basic detection (color tracking, motion, or face detection depending on the demo)\n- **Python** bridge that converts detection → serial commands\n- **Arduino** that reads the serial stream and drives an actuator (servo, LED, whatever's handy)\n\n### Why it's fun\nSoftware projects live on the screen. This one reaches into the room. Once you've got a servo turning to follow your face, you immediately want to connect it to everything.",
+          "date": "2023",
+          "techStack": ["Python", "OpenCV", "Arduino", "C++"],
+          "github": "https://github.com/AmitDavidi",
           "media": { "youtubeId": "GaeUNcdLi3A", "title": "CV - Arduino" }
         }
       ]
