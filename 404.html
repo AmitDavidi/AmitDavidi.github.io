@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Not Found | Amit Davidi</title>
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent: #7c5cff;
+            --accent-2: #00d4ff;
+            --accent-3: #ff6b9d;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e8e8ed;
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 30%, rgba(124, 92, 255, 0.18), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 212, 255, 0.12), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 20% 70%, rgba(255, 107, 157, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+        }
+
+        .glitch {
+            position: relative;
+            font-size: clamp(6rem, 20vw, 14rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            z-index: 1;
+            text-shadow:
+                0 0 30px rgba(124, 92, 255, 0.5),
+                0 0 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: "404";
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+        .glitch::before {
+            color: var(--accent-3);
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            text-shadow: -3px 0 var(--accent-3);
+        }
+        .glitch::after {
+            color: var(--accent-2);
+            animation: glitch-2 2.3s infinite linear alternate-reverse;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            text-shadow: 3px 0 var(--accent-2);
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-3px, 2px); }
+            40% { transform: translate(2px, -3px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(2px, 2px); }
+        }
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(3px, -2px); }
+            50% { transform: translate(-2px, 3px); }
+            75% { transform: translate(1px, -1px); }
+        }
+
+        h1 {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 700;
+            margin: 20px 0 14px;
+            letter-spacing: -0.02em;
+            z-index: 1;
+            position: relative;
+            background: linear-gradient(135deg, #fff, #b4b4c7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.lead {
+            color: #9a9aa8;
+            font-size: 1rem;
+            max-width: 440px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .path {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #6b6b7a;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin-bottom: 32px;
+            display: inline-block;
+            z-index: 1;
+            position: relative;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #5a3fd6);
+            color: white;
+            box-shadow: 0 8px 24px -8px rgba(124, 92, 255, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px -8px rgba(124, 92, 255, 0.5);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8e8ed;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn svg { width: 16px; height: 16px; }
+
+        footer {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #6b6b7a;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glitch" data-text="404">404</div>
+    <h1>Lost in the grid</h1>
+    <p class="lead">
+        The page you were looking for doesn't exist. Maybe it got refactored into oblivion,
+        or maybe the URL just has a typo.
+    </p>
+    <div class="path" id="path">—</div>
+    <div class="actions">
+        <a class="btn btn-primary" href="/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Back to home
+        </a>
+        <a class="btn btn-secondary" href="https://github.com/AmitDavidi?tab=repositories" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            My GitHub
+        </a>
+    </div>
+    <footer>ERR · PAGE_NOT_FOUND · EXIT_CODE 0x194</footer>
+
+    <script>
+        // Show the attempted path for the curious
+        try {
+            const p = document.getElementById('path');
+            p.textContent = location.pathname + (location.search || '');
+        } catch (e) {}
+    </script>
+</body>
+
+</html>

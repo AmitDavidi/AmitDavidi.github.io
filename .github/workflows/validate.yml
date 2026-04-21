@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  validate-projects:
+    name: Validate projects.json
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate schema
+        run: node validate.js
+
+      - name: Verify internal links exist
+        run: |
+          for f in index.html about.html project.html 404.html dashboard.html; do
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f::Missing required file"
+              exit 1
+            fi
+          done
+          echo "All expected pages present."
+
+  html-lint:
+    name: HTML smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check HTML files parse
+        run: |
+          set -e
+          for f in *.html; do
+            # Extremely light check: ensure well-formed enough to find <html> and </html>
+            grep -q "<html" "$f" || (echo "::error file=$f::Missing <html> tag" && exit 1)
+            grep -q "</html>" "$f" || (echo "::error file=$f::Missing </html> tag" && exit 1)
+          done
+          echo "Basic HTML structure checks passed."

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project — Amit Davidi</title>
+    <meta name="description" content="Project deep-dive.">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Project — Amit Davidi">
+    <meta property="og:site_name" content="Amit Davidi">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://i.ytimg.com">
+    <link rel="preconnect" href="https://www.youtube-nocookie.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-elevated: #12121a;
+            --bg-card: #161620;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --text: #e8e8ed;
+            --text-muted: #9a9aa8;
+            --text-dim: #6b6b7a;
+            --accent: #7c5cff;
+            --accent-2: #00d4ff;
+            --accent-3: #ff6b9d;
+            --glow: rgba(124, 92, 255, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(124, 92, 255, 0.15), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0, 212, 255, 0.10), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .btn-nav {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text) !important;
+            font-size: 0.85rem !important;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            transition: color 0.15s ease;
+        }
+        .back-link:hover { color: var(--text); }
+        .back-link svg { width: 14px; height: 14px; }
+
+        .project-hero {
+            padding: 20px 0 40px;
+        }
+        .project-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 14px;
+        }
+        h1.project-heading {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, #ffffff 0%, #b4b4c7 60%, #7c5cff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .project-lead {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .project-meta-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 14px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .tech-pill {
+            font-size: 0.8rem;
+            padding: 4px 11px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+        .meta-date {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .meta-links { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+        .meta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 7px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            transition: all 0.15s ease;
+        }
+        .meta-link:hover { border-color: var(--border-hover); }
+        .meta-link svg { width: 14px; height: 14px; }
+
+        .media-wrap {
+            margin: 0 0 40px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #000;
+        }
+        .media-wrap .yt-lite {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .yt-lite::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--yt-thumb);
+            background-size: cover;
+            background-position: center;
+        }
+        .yt-lite::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 68px;
+            height: 48px;
+            margin: -24px 0 0 -34px;
+            background-color: rgba(15, 7, 32, 0.85);
+            border-radius: 14px;
+        }
+        .yt-lite:hover::after { background-color: #ff0033; }
+        .yt-lite .yt-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 16px;
+            border-color: transparent transparent transparent white;
+            margin: -10px 0 0 -5px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .yt-lite iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .yt-lite.activated::before,
+        .yt-lite.activated::after,
+        .yt-lite.activated .yt-play-icon { display: none; }
+
+        .project-image-wrap img {
+            display: block;
+            width: 100%;
+        }
+
+        /* Markdown content */
+        .prose {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text);
+            padding-bottom: 60px;
+        }
+        .prose h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 40px 0 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .prose h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 28px 0 10px;
+            color: var(--text);
+        }
+        .prose p { margin-bottom: 18px; color: var(--text-muted); }
+        .prose strong { color: var(--text); font-weight: 600; }
+        .prose em { color: var(--text); font-style: italic; }
+        .prose a {
+            color: var(--accent-2);
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 212, 255, 0.3);
+            text-underline-offset: 3px;
+        }
+        .prose a:hover { text-decoration-color: var(--accent-2); }
+        .prose ul, .prose ol {
+            margin: 0 0 22px 22px;
+            color: var(--text-muted);
+        }
+        .prose ul li { margin-bottom: 6px; }
+        .prose code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.92em;
+            padding: 2px 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--accent-2);
+        }
+        .prose pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
+            overflow-x: auto;
+            margin-bottom: 22px;
+        }
+        .prose pre code {
+            background: transparent;
+            border: 0;
+            padding: 0;
+            color: var(--text);
+            font-size: 0.88rem;
+        }
+        .prose blockquote {
+            border-left: 3px solid var(--accent);
+            padding: 4px 0 4px 16px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .prose hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+
+        .status {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            margin-top: 40px;
+        }
+        footer p {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            line-height: 1;
+        }
+        .theme-toggle:hover { color: var(--text); border-color: var(--border-hover); }
+        .theme-toggle svg { width: 14px; height: 14px; }
+
+        @media (max-width: 600px) {
+            .nav-links a:not(.btn-nav):not(#theme-toggle) { display: none; }
+            .meta-links { margin-left: 0; width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                <span>Amit Davidi</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Projects</a>
+                <a href="about.html">About</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle cyberpunk theme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span class="theme-label">Cyberpunk</span>
+                </button>
+                <a class="btn-nav" target="_blank" href="https://github.com/AmitDavidi?tab=repositories">GitHub →</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a class="back-link" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to projects
+        </a>
+
+        <div id="root">
+            <div class="status">Loading…</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Amit Davidi · <a style="color: var(--accent-2); text-decoration: none;" href="mailto:amitdavidi12@gmail.com">amitdavidi12@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // Small Markdown → HTML renderer (no dependencies)
+        //   Supports: headings (#..###), bold, italic, inline code,
+        //   links, lists, code fences, blockquotes, hr, paragraphs
+        // ============================================================
+        function mdToHtml(md) {
+            if (!md) return '';
+            // Normalize line endings
+            let src = String(md).replace(/\r\n?/g, '\n');
+
+            // Escape HTML first, then we re-introduce markup ourselves
+            const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            // Protect fenced code blocks
+            const codeBlocks = [];
+            src = src.replace(/```([a-zA-Z0-9_+-]*)\n([\s\S]*?)```/g, (m, lang, code) => {
+                const idx = codeBlocks.length;
+                codeBlocks.push({ lang, code });
+                return `\u0000CB${idx}\u0000`;
+            });
+
+            // Escape rest
+            src = esc(src);
+
+            // Inline code (after escape, since code contents are also HTML-escaped via the backtick rule)
+            src = src.replace(/`([^`\n]+)`/g, (m, c) => `<code>${c}</code>`);
+
+            // Bold / italic
+            src = src.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+            src = src.replace(/__([^_\n]+)__/g, '<strong>$1</strong>');
+            src = src.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+            src = src.replace(/(^|[^_])_([^_\n]+)_/g, '$1<em>$2</em>');
+
+            // Links [label](url)
+            src = src.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, label, url) => {
+                const safe = url.replace(/"/g, '&quot;');
+                return `<a href="${safe}" target="_blank" rel="noopener">${label}</a>`;
+            });
+
+            // Split into blocks by blank lines
+            const blocks = src.split(/\n{2,}/);
+            const out = blocks.map(block => {
+                const b = block.trim();
+                if (!b) return '';
+                // Code block placeholder
+                const cbMatch = b.match(/^\u0000CB(\d+)\u0000$/);
+                if (cbMatch) {
+                    const { lang, code } = codeBlocks[+cbMatch[1]];
+                    const escaped = esc(code);
+                    const cls = lang ? ` class="lang-${lang}"` : '';
+                    return `<pre><code${cls}>${escaped}</code></pre>`;
+                }
+                // Headings
+                if (/^###\s+/.test(b)) return `<h3>${b.replace(/^###\s+/, '')}</h3>`;
+                if (/^##\s+/.test(b)) return `<h2>${b.replace(/^##\s+/, '')}</h2>`;
+                if (/^#\s+/.test(b)) return `<h2>${b.replace(/^#\s+/, '')}</h2>`;
+                // Horizontal rule
+                if (/^---+$/.test(b)) return '<hr>';
+                // Blockquote
+                if (/^>\s/.test(b)) {
+                    const text = b.split('\n').map(l => l.replace(/^>\s?/, '')).join('<br>');
+                    return `<blockquote>${text}</blockquote>`;
+                }
+                // Unordered list
+                if (/^[-*]\s+/m.test(b) && b.split('\n').every(l => /^[-*]\s+/.test(l.trim()) || !l.trim())) {
+                    const items = b.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^[-*]\s+/, '')}</li>`).join('');
+                    return `<ul>${items}</ul>`;
+                }
+                // Ordered list
+                if (/^\d+\.\s+/m.test(b) && b.split('\n').every(l => /^\d+\.\s+/.test(l.trim()) || !l.trim())) {
+                    const items = b.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^\d+\.\s+/, '')}</li>`).join('');
+                    return `<ol>${items}</ol>`;
+                }
+                // Paragraph (preserve single line breaks as <br>)
+                const withBr = b.replace(/\n/g, '<br>');
+                return `<p>${withBr}</p>`;
+            }).join('\n');
+            return out;
+        }
+
+        // ============================================================
+        // Theme toggle (matches other pages)
+        // ============================================================
+        (function setupTheme() {
+            try { if (localStorage.getItem('theme') === 'cyberpunk') document.body.classList.add('cyberpunk'); } catch (e) {}
+            const btn = document.getElementById('theme-toggle');
+            const label = btn?.querySelector('.theme-label');
+            function sync() {
+                if (!label) return;
+                label.textContent = document.body.classList.contains('cyberpunk') ? 'Normal' : 'Cyberpunk';
+            }
+            sync();
+            btn?.addEventListener('click', () => {
+                const next = document.body.classList.contains('cyberpunk') ? 'default' : 'cyberpunk';
+                document.body.classList.toggle('cyberpunk');
+                try { localStorage.setItem('theme', next); } catch (e) {}
+                sync();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.shiftKey && (e.key === 'C' || e.key === 'c') &&
+                    !/^(input|textarea|select)$/i.test(document.activeElement?.tagName || '')) {
+                    e.preventDefault();
+                    btn?.click();
+                }
+            });
+        })();
+
+        // ============================================================
+        // Load project by ?id=slug
+        // ============================================================
+        function esc(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function findProject(data, id) {
+            for (const cat of data.categories || []) {
+                for (const p of cat.projects || []) {
+                    if (p.id === id || p.slug === id) return { cat, project: p };
+                }
+            }
+            return null;
+        }
+
+        function renderMedia(p) {
+            if (p.type === 'video' && p.media?.youtubeId) {
+                const id = esc(p.media.youtubeId);
+                return `<div class="media-wrap">
+                    <div class="yt-lite" data-yt-id="${id}" data-yt-title="${esc(p.title)}"
+                         style="--yt-thumb: url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')"
+                         role="button" tabindex="0" aria-label="Play ${esc(p.title)}">
+                        <div class="yt-play-icon" aria-hidden="true"></div>
+                    </div>
+                </div>`;
+            }
+            if (p.type === 'image' && p.media?.src) {
+                return `<div class="media-wrap project-image-wrap"><img src="${esc(p.media.src)}" alt="${esc(p.media.alt || p.title || '')}"></div>`;
+            }
+            return '';
+        }
+
+        function renderMetaBar(p, cat) {
+            const pills = (p.techStack || []).map(t => `<span class="tech-pill">${esc(t)}</span>`).join('');
+            const date = p.date ? `<span class="meta-date">${esc(p.date)}</span>` : '';
+            const links = [];
+            if (p.github) links.push(`<a class="meta-link" href="${esc(p.github)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                Source
+            </a>`);
+            if (p.demoUrl) links.push(`<a class="meta-link" href="${esc(p.demoUrl)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Live demo
+            </a>`);
+            const pieces = [];
+            if (pills) pieces.push(pills);
+            if (date) pieces.push(date);
+            if (!pieces.length && !links.length) return '';
+            return `<div class="project-meta-bar">${pieces.join('')}${links.length ? `<div class="meta-links">${links.join('')}</div>` : ''}</div>`;
+        }
+
+        function renderPage(found) {
+            const { cat, project: p } = found;
+            document.title = `${p.title} — Amit Davidi`;
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc && p.description) metaDesc.setAttribute('content', stripHtml(p.description).slice(0, 160));
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', `${p.title} — Amit Davidi`);
+            if (p.media?.youtubeId) {
+                document.querySelector('meta[property="og:image"]')?.setAttribute('content', `https://i.ytimg.com/vi/${p.media.youtubeId}/maxresdefault.jpg`);
+                document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', `https://i.ytimg.com/vi/${p.media.youtubeId}/maxresdefault.jpg`);
+            }
+
+            const root = document.getElementById('root');
+            const tagColor = p.tagColor && p.tagColor !== 'purple' ? ` ${esc(p.tagColor)}` : '';
+            const longHtml = p.longDescription ? mdToHtml(p.longDescription) : `<p>${p.description || ''}</p>`;
+            root.innerHTML = `
+                <div class="project-hero">
+                    <div class="project-category">${esc(cat.number || '')} ${cat.number ? '—' : ''} ${esc(cat.label || cat.title || '')}</div>
+                    <h1 class="project-heading">${esc(p.title)}</h1>
+                    <p class="project-lead">${p.description || ''}</p>
+                    ${renderMetaBar(p, cat)}
+                </div>
+                ${renderMedia(p)}
+                <div class="prose">${longHtml}</div>
+            `;
+
+            // Wire up lite YT
+            document.querySelectorAll('.yt-lite').forEach(el => {
+                const activate = () => {
+                    if (el.classList.contains('activated')) return;
+                    const id = el.dataset.ytId;
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&vq=hd720p`;
+                    iframe.title = el.dataset.ytTitle || 'video';
+                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                    iframe.setAttribute('allowfullscreen', '');
+                    el.appendChild(iframe);
+                    el.classList.add('activated');
+                };
+                el.addEventListener('click', activate);
+                el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+            });
+        }
+
+        function stripHtml(s) { const d = document.createElement('div'); d.innerHTML = s || ''; return d.textContent || ''; }
+
+        function showError(msg, detail) {
+            document.getElementById('root').innerHTML = `
+                <div class="status" style="color: #ff8a8a;">
+                    <h2 style="color:#ff8a8a; margin-bottom: 12px;">${esc(msg)}</h2>
+                    ${detail ? `<p style="color: var(--text-muted); margin-bottom: 20px;">${esc(detail)}</p>` : ''}
+                    <a href="index.html" style="color: var(--accent-2);">← Back to projects</a>
+                </div>`;
+        }
+
+        (async function main() {
+            const params = new URLSearchParams(location.search);
+            const id = params.get('id');
+            if (!id) { showError('No project specified', 'This page needs a ?id= parameter.'); return; }
+            try {
+                const r = await fetch('projects.json', { cache: 'no-cache' });
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                const data = await r.json();
+                const found = findProject(data, id);
+                if (!found) { showError('Project not found', `No project matched "${id}".`); return; }
+                renderPage(found);
+            } catch (e) {
+                console.error(e);
+                showError('Failed to load', e.message);
+            }
+        })();
+    </script>
+</body>
+
+</html>
