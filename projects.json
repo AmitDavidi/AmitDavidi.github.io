@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "badge": "Engineer @ NVIDIA — open to side projects",
+    "title": "Projects & Demos",
+    "subtitle": "A collection of visual experiments spanning algorithms, pathfinding, fractals, and computer vision — built for the joy of making things work."
+  },
+  "categories": [
+    {
+      "id": "chess",
+      "number": "01",
+      "label": "Chess",
+      "title": "Chess Engines & Visualizations",
+      "description": "Exploring classic board problems and building a full chess game from scratch, including advanced rules and position analysis.",
+      "projects": [
+        {
+          "id": "knights-tour-50",
+          "type": "video",
+          "size": "half",
+          "tag": "Algorithm",
+          "tagColor": "purple",
+          "title": "Knight's Tour — 50×50",
+          "description": "Visualization of the Knight's Tour problem solved on a massive 50×50 chess board, watching the knight traverse every square exactly once.",
+          "media": { "youtubeId": "-PHtuXZQeJA", "title": "Knight's tour 50x50" }
+        },
+        {
+          "id": "full-chess-game",
+          "type": "video",
+          "size": "half",
+          "tag": "Game Engine",
+          "tagColor": "purple",
+          "title": "Full Chess Game",
+          "description": "A complete chess implementation featuring <strong>En Passant</strong>, <strong>Castling</strong>, and a full <strong>King Check</strong> detection mechanism.",
+          "media": { "youtubeId": "SsIT_lDzYVU", "title": "Chess Game" }
+        },
+        {
+          "id": "pgn-square-control",
+          "type": "video",
+          "size": "full",
+          "tag": "Analysis",
+          "tagColor": "purple",
+          "title": "PGN Parsing + Square Control",
+          "description": "A Magnus Carlsen game visualized through custom PGN parsing, with a square-control heatmap overlay.<span class=\"note\"><span class=\"swatch\" style=\"background:#e74c3c\"></span><strong>Red</strong> — abandoned squares with no attackers or defenders.</span><span class=\"note\"><span class=\"swatch\" style=\"background:#2ecc71\"></span><strong>Green</strong> — squares equally attacked and defended.</span>",
+          "media": { "youtubeId": "rgKzu4GFWXA", "title": "PGN Parsing - Magnus Carlsen" }
+        }
+      ]
+    },
+    {
+      "id": "pathfinding",
+      "number": "02",
+      "label": "Pathfinding",
+      "title": "Path Finding Algorithms",
+      "description": "Classic pathfinding algorithms visualized across randomly generated mazes and weighted grids.",
+      "projects": [
+        {
+          "id": "dijkstra-maze",
+          "type": "video",
+          "size": "half",
+          "tag": "Dijkstra",
+          "tagColor": "cyan",
+          "title": "Dijkstra on a Random Maze",
+          "description": "Dijkstra's algorithm discovering the shortest path through a procedurally generated maze, one cell at a time.",
+          "media": { "youtubeId": "3_v-9UliC3k", "title": "Dijkstra's - Maze" }
+        },
+        {
+          "id": "pathfinding-showcase",
+          "type": "video",
+          "size": "half",
+          "tag": "Showcase",
+          "tagColor": "cyan",
+          "title": "Pathfinding Showcase",
+          "description": "A broader tour of pathfinding approaches with obstacles and weighted terrain.<span class=\"note\"><span class=\"swatch\" style=\"background:#ffffff;border:1px solid #333\"></span><strong>White</strong> — impassable barriers.</span><span class=\"note\"><span class=\"swatch\" style=\"background:#8b5a2b\"></span><strong>Brown</strong> — weighted paths, like a traffic jam.</span>",
+          "media": { "youtubeId": "VKVme3K8nco", "title": "Path Finding Showcase" }
+        }
+      ]
+    },
+    {
+      "id": "mandelbrot",
+      "number": "03",
+      "label": "Fractals",
+      "title": "The Mandelbrot Set",
+      "description": "A deep dive into one of mathematics' most iconic fractals — rendered, colored, and explored.",
+      "projects": [
+        {
+          "id": "mandelbrot-explorer",
+          "type": "video",
+          "size": "full",
+          "tag": "Fractal",
+          "tagColor": "pink",
+          "title": "Mandelbrot Set Explorer",
+          "description": "Rendering and zooming into the infinite detail of the Mandelbrot set — where simple iteration produces stunning complexity.",
+          "media": { "youtubeId": "LtWhJKSLqWE", "title": "Mandelbrot" }
+        }
+      ]
+    },
+    {
+      "id": "cv",
+      "number": "04",
+      "label": "Computer Vision",
+      "title": "Computer Vision + Arduino",
+      "description": "A simple but genuinely fun experiment bridging software vision with physical hardware.",
+      "projects": [
+        {
+          "id": "cv-arduino",
+          "type": "video",
+          "size": "full",
+          "tag": "Hardware",
+          "tagColor": "orange",
+          "title": "Arduino Computer Vision",
+          "description": "Live computer vision driving an Arduino — simple in concept, but surprisingly satisfying to watch in action.",
+          "media": { "youtubeId": "GaeUNcdLi3A", "title": "CV - Arduino" }
+        }
+      ]
+    }
+  ]
+}
